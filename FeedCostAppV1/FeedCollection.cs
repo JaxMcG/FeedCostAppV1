@@ -14,21 +14,23 @@ namespace FeedCostAppV1
         private string breed;
         private string id;
 
-        //Stores the Amount of Food Eaten Daily
-        private List<float> dailyFoodConsumed = new List<float>();
         //Stores the Indexs of the Breed that Has Been Selected
         private List<int> breedChoice = new List<int>();
         //Stores the Indexs of the Food that Has Been Selected
         private List<int> foodChoice = new List<int>();
-        //Stores a List of the Different Types of Food Available
-        private List<string> foodType = new List<string>() {"Palm Kernal", "Hay", "Maize" };
-
+        //Stores the Amount of Food Eaten Daily
+        private List<float> dailyFoodAmount = new List<float>();
 
         //Constructor
         public FeedCollection()
         {
 
         }
+
+        //public DateTime(int year, int month, int day)
+        //{
+            
+        //}
 
         //Set Species to Cow
         public void SetSpecies()
@@ -45,6 +47,10 @@ namespace FeedCostAppV1
         //Create Id for Each Animal
         public string CreateId()
         {
+            //Give it the letter C for species
+            //Get first 3 letters of the breed
+            //Give it a number starting at 1
+            //Give it the year it was born
             return id;
         }
 
@@ -63,7 +69,11 @@ namespace FeedCostAppV1
         //Calculate the Amount of Food Eaten in a Week
         public float CalculateWeeklyFoodConsumed()
         {
-
+            //Get amount of food eaten each day
+            //Add them together to get weekly amount
+            //Create variable storing total food eaten
+            //Loop through the list of food eaten and get last weeks consumption
+            //Add the food eaten in the past week to the total (new variable)
 
             return 0;
         }
@@ -71,12 +81,20 @@ namespace FeedCostAppV1
         //Calculate the Cost for the Food Eaten that Week
         public float CalculateWeeklyCost()
         {
+            //Get the amount of food eaten for the week
+            //Get the price of the food
+            //Multiply the food eaten for the week by the price
+
             return 0;
         }
 
         //Display a Summary of the Food Eaten Plus the Cost
         public string DisplaySingleSummary()
         {
+            //Display the species, breed, id and food type
+            //Display the daily food eaten
+            //Display the total food consumed
+            //Display the total cost
             return "";
         }
 
