@@ -13,6 +13,7 @@ namespace FeedCostAppV1
         private string species;
         private string breed;
         private string id;
+        private int birthYear;
 
         //Stores the Indexs of the Breed that Has Been Selected
         private List<int> breedChoice = new List<int>();
@@ -26,22 +27,25 @@ namespace FeedCostAppV1
         {
 
         }
-
-        //public DateTime(int year, int month, int day)
-        //{
-            
-        //}
-
+        
         //Set Species to Cow
-        public void SetSpecies()
+        public string SetSpecies()
         {
             species = "Cow";
+
+            return species;
         }
 
         //Returns the Value in the Private breed Variable
         public List<int> GetBreed()
         {
             return breedChoice;
+        }
+
+        //Get the Year the Cow Was Born
+        public int GetYearOfBirth()
+        {
+            return birthYear;
         }
 
         //Create Id for Each Animal
@@ -51,6 +55,10 @@ namespace FeedCostAppV1
             //Get first 3 letters of the breed
             //Give it a number starting at 1
             //Give it the year it was born
+            string firstThreeChar = new string(breed.Take(3).ToArray());
+
+            id = $"C{firstThreeChar}{GetYearOfBirth()}";
+
             return id;
         }
 
@@ -69,33 +77,35 @@ namespace FeedCostAppV1
         //Calculate the Amount of Food Eaten in a Week
         public float CalculateWeeklyFoodConsumed()
         {
-            //Get amount of food eaten each day
-            //Add them together to get weekly amount
-            //Create variable storing total food eaten
-            //Loop through the list of food eaten and get last weeks consumption
-            //Add the food eaten in the past week to the total (new variable)
+            float weeklyFoodConsumed = 0f;
 
-            return 0;
+            for (int foodIndex = 0; foodIndex < dailyFoodAmount.Count; foodIndex++)
+            {
+                weeklyFoodConsumed = dailyFoodAmount[foodIndex];
+            }
+
+            return weeklyFoodConsumed;
         }
 
         //Calculate the Cost for the Food Eaten that Week
-        public float CalculateWeeklyCost()
+        public float CalculateWeeklyCost(float fPrices)
         {
-            //Get the amount of food eaten for the week
-            //Get the price of the food
-            //Multiply the food eaten for the week by the price
+            float totalCost = fPrices * CalculateWeeklyFoodConsumed();
 
-            return 0;
+            return totalCost;
         }
 
         //Display a Summary of the Food Eaten Plus the Cost
-        public string DisplaySingleSummary()
+        public string DisplaySingleSummary(float fPrices)
         {
             //Display the species, breed, id and food type
             //Display the daily food eaten
             //Display the total food consumed
             //Display the total cost
-            return "";
+            string summary = $"Species: {SetSpecies()}\nBreed: {breedChoice}\nId: {CreateId()}\nType Of Food: {foodChoice}\n" +
+                $"Food Eaten:\n{dailyFoodAmount}\n\nTotal Food Eaten: {CalculateWeeklyFoodConsumed()}kg\nTotal Cost: ${CalculateWeeklyCost(fPrices)}";
+
+            return summary;
         }
 
         public override string ToString()
