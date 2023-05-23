@@ -21,6 +21,7 @@ namespace FeedCostAppV1
         private List<int> foodChoice = new List<int>();
         //Stores the Amount of Food Eaten Daily
         private List<float> dailyFoodAmount = new List<float>();
+        //Stores Each Id Created
 
         //Constructor
         public FeedCollection()
@@ -51,10 +52,6 @@ namespace FeedCostAppV1
         //Create Id for Each Animal
         public string CreateId()
         {
-            //Give it the letter C for species
-            //Get first 3 letters of the breed
-            //Give it a number starting at 1
-            //Give it the year it was born
             string firstThreeChar = new string(breed.Take(3).ToArray());
 
             id = $"C{firstThreeChar}{GetYearOfBirth()}";
@@ -98,10 +95,6 @@ namespace FeedCostAppV1
         //Display a Summary of the Food Eaten Plus the Cost
         public string DisplaySingleSummary(float fPrices)
         {
-            //Display the species, breed, id and food type
-            //Display the daily food eaten
-            //Display the total food consumed
-            //Display the total cost
             string summary = $"Species: {SetSpecies()}\nBreed: {breedChoice}\nId: {CreateId()}\nType Of Food: {foodChoice}\n" +
                 $"Food Eaten:\n{dailyFoodAmount}\n\nTotal Food Eaten: {CalculateWeeklyFoodConsumed()}kg\nTotal Cost: ${CalculateWeeklyCost(fPrices)}";
 
