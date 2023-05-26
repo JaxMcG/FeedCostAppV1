@@ -6,55 +6,45 @@ using System.Threading.Tasks;
 
 namespace FeedCostAppV1
 {
-    class FeedCollection
+    class Cow
     {
+        private List<FeedManager> feedManager = new List<FeedManager>();
 
         //Attributes or Fields
         private string species;
         private string breed;
-        private string id;
-        private int birthYear;
+        private DateTime dob;
 
-        //Stores the Indexs of the Breed that Has Been Selected
-        private List<int> breedChoice = new List<int>();
+
         //Stores the Indexs of the Food that Has Been Selected
         private List<int> foodChoice = new List<int>();
         //Stores the Amount of Food Eaten Daily
         private List<float> dailyFoodAmount = new List<float>();
-        //Stores Each Id Created
 
         //Constructor
-        public FeedCollection()
+        public Cow(string species, string breed, DateTime dob)
         {
-
+            this.species = species;
+            this.breed = breed;
+            this.dob = dob;
         }
-        
-        //Set Species to Cow
-        public string SetSpecies()
-        {
-            species = "Cow";
 
-            return species;
+        //Set Species to Cow
+        public void SetSpecies(string species)
+        {
+            this.species = species;
         }
 
         //Returns the Value in the Private breed Variable
-        public List<int> GetBreed()
+        public string GetBreed()
         {
-            return breedChoice;
-        }
-
-        //Get the Year the Cow Was Born
-        public int GetYearOfBirth()
-        {
-            return birthYear;
+            return breed;
         }
 
         //Create Id for Each Animal
         public string CreateId()
         {
-            string firstThreeChar = new string(breed.Take(3).ToArray());
-
-            id = $"C{firstThreeChar}{GetYearOfBirth()}";
+            string id = "C" + breed.Substring(0, 3).ToUpper() + dob;
 
             return id;
         }
@@ -66,9 +56,16 @@ namespace FeedCostAppV1
         }
 
         //Get the Amount of Food Eaten Each Day
-        public float GetDailyFoodConsumed()
+        public List<float> GetDailyFoodConsumed()
         {
-            return 0;
+            List<float> weeksConsumption = new List<float>();
+
+            for (int dailyFoodIndex = dailyFoodAmount.Count - 7; dailyFoodIndex < dailyFoodAmount.Count; dailyFoodIndex++)
+            {
+                weeksConsumption.Add(dailyFoodAmount[dailyFoodIndex]);
+            }
+
+            return weeksConsumption;
         }
 
         //Calculate the Amount of Food Eaten in a Week
@@ -95,7 +92,7 @@ namespace FeedCostAppV1
         //Display a Summary of the Food Eaten Plus the Cost
         public string DisplaySingleSummary(float fPrices)
         {
-            string summary = $"Species: {SetSpecies()}\nBreed: {breedChoice}\nId: {CreateId()}\nType Of Food: {foodChoice}\n" +
+            string summary = $"Species: {species}\nBreed: {breed}\nId: {CreateId()}\nType Of Food: {foodChoice}\n" +
                 $"Food Eaten:\n{dailyFoodAmount}\n\nTotal Food Eaten: {CalculateWeeklyFoodConsumed()}kg\nTotal Cost: ${CalculateWeeklyCost(fPrices)}";
 
             return summary;

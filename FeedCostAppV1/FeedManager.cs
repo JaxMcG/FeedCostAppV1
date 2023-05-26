@@ -8,15 +8,29 @@ namespace FeedCostAppV1
 {
     class FeedManager
     {
-        private List<FeedCollection> feedCollection = new List<FeedCollection>();
+        private List<Cow> cow = new List<Cow>();
         private List<string> breedTypes = new List<string>() { "Friesian", "Jersey", "Ayrshire " };
         private List<string> foodType = new List<string>() {"Palm Kernal", "Maize", "Hay" };
         private List<float> foodPrice = new List<float>() { 1.69625f, 0.4556f, 0.113f };
-        
+        private List<float> newFoodPrice = new List<float>();
+
         //Constructor
         public FeedManager()
         {
 
+        }
+
+        //Get the Total Amount of Cows Added and Then Add 1 to the Id Number
+        public int IdCounter()
+        {
+            int Idnum = 0;
+
+            foreach (Cow cow in cow)
+            {
+                Idnum++;
+            }
+
+            return Idnum;
         }
 
         //Calculate the Total Food Consumed By Every Cow for the Week
@@ -24,16 +38,16 @@ namespace FeedCostAppV1
         {
             float totalFoodConsumed = 0;
 
-            foreach (FeedCollection feedCollection in feedCollection)
+            foreach (Cow cow in cow)
             {
-                totalFoodConsumed += feedCollection.CalculateWeeklyFoodConsumed();
+                totalFoodConsumed += cow.CalculateWeeklyFoodConsumed();
             }
             
             return totalFoodConsumed;
         }
 
         //Calculate the Total Cost of Food for CalculateTotalFoodConsumed()
-        public float CalculateTotalFoodCost(float foodPrices)
+        public float CalculateTotalFoodCost(float foodPrices = 0)
         {
             float totalFoodCost =  foodPrices * CalculateTotalFoodConsumed();
 
@@ -41,19 +55,19 @@ namespace FeedCostAppV1
         }
 
         //Calculate the Recommended Food that Should Be Consumed
-        public void CalculateRecommendedFoodConsumption(FeedCollection feedCollection)
+        public void CalculateRecommendedFoodConsumption(Cow cow)
         {
-            if (feedCollection.CalculateWeeklyFoodConsumed() < 126)
+            if (cow.CalculateWeeklyFoodConsumed() < 126)
             {
-                Console.WriteLine($"Animal {feedCollection.CreateId()} is eating less than the recommended amount of food per week");
+                Console.WriteLine($"Cow {cow.CreateId()} is eating less than the recommended amount of food per week");
             }
-            else if (feedCollection.CalculateWeeklyFoodConsumed() > 200)
+            else if (cow.CalculateWeeklyFoodConsumed() > 200)
             {
-                Console.WriteLine($"Animal {feedCollection.CreateId()} is eating more than the recommended amount of food per week");
+                Console.WriteLine($"Cow {cow.CreateId()} is eating more than the recommended amount of food per week");
             }
             else
             {
-                Console.WriteLine($"Animal {feedCollection.CreateId()} is eating within the recommended amount of food per week");
+                Console.WriteLine($"Cow {cow.CreateId()} is eating within the recommended amount of food per week");
             }
         }
 
@@ -64,15 +78,18 @@ namespace FeedCostAppV1
         }
 
         //Change the Prices of Each type of Food
-        public float ChangeFoodPrices()
+        public void ChangeFoodPrices()
         {
-            return 0;
+            foodPrice = newFoodPrice;
         }
 
         //Display a Summary of the Total Food Eaten Plus the Cost, and Recommended Food Eaten (All Animals, Not Just One)
-        public string DisplayTotalSummary()
+        public string DisplayTotalSummary(float foodPrices)
         {
-            return "";
+            string totalSummary = $"Total Food Consumed: {CalculateTotalFoodConsumed()}\n" +
+                $"Total Cost: ${CalculateTotalFoodCost()}\n" +
+                $"";
+            return totalSummary;
         }
 
         //Display the Previous Summary
