@@ -8,11 +8,12 @@ namespace FeedCostAppV1
 {
     class FeedManager
     {
-        private List<Cow> cow = new List<Cow>();
+        private List<Cow> cows = new List<Cow>();
         private List<string> breedTypes = new List<string>() { "Friesian", "Jersey", "Ayrshire " };
         private List<string> foodType = new List<string>() {"Palm Kernal", "Maize", "Hay" };
         private List<float> foodPrice = new List<float>() { 1.69625f, 0.4556f, 0.113f };
         private List<float> newFoodPrice = new List<float>();
+        private List<string> AddSum = new List<string>();
 
         //Constructor
         public FeedManager()
@@ -20,60 +21,56 @@ namespace FeedCostAppV1
 
         }
 
-        //Get the Total Amount of Cows Added and Then Add 1 to the Id Number
-        public int IdCounter()
+        //Add a Cow to the List 
+        public void AddCow(Cow newCow)
         {
-            int Idnum = 0;
+            cows.Add(newCow);
 
-            foreach (Cow cow in cow)
-            {
-                Idnum++;
-            }
-
-            return Idnum;
+            cows[cows.Count - 1].CreateId(cows.Count);
         }
 
         //Calculate the Total Food Consumed By Every Cow for the Week
-        public float CalculateTotalFoodConsumed()
+        public List<float> CalculateTotalFoodConsumed()
         {
-            float totalFoodConsumed = 0;
+            List<float> totalFoodConsumed = new List<float>() {0, 0, 0 };
 
-            foreach (Cow cow in cow)
+            foreach (Cow cow in cows)
             {
-                totalFoodConsumed += cow.CalculateWeeklyFoodConsumed();
+                for (int index = 0; index < 3; index++)
+                {
+                    totalFoodConsumed[index] += cow.GetDailyFoodConsumed()[index];
+                }  
             }
             
             return totalFoodConsumed;
         }
 
         //Calculate the Total Cost of Food for CalculateTotalFoodConsumed()
-        public float CalculateTotalFoodCost(float foodPrices = 0)
+        public List<float> CalculateTotalFoodCost(float foodPrices = 0)
         {
-            float totalFoodCost =  foodPrices * CalculateTotalFoodConsumed();
+            List<float> totalFoodCost = new List<float>() {0, 0, 0 };
+
+            for (int index = 0; index < 3; index++)
+            {
+                totalFoodCost[index] = foodPrices * CalculateTotalFoodConsumed()[index];
+            }
 
             return totalFoodCost;            
         }
 
         //Calculate the Recommended Food that Should Be Consumed
-        public void CalculateRecommendedFoodConsumption(Cow cow)
+        public string CalculateRecommendedFoodConsumption(Cow cow)
         {
-            if (cow.CalculateWeeklyFoodConsumed() < 126)
-            {
-                Console.WriteLine($"Cow {cow.CreateId()} is eating less than the recommended amount of food per week");
-            }
-            else if (cow.CalculateWeeklyFoodConsumed() > 200)
-            {
-                Console.WriteLine($"Cow {cow.CreateId()} is eating more than the recommended amount of food per week");
-            }
-            else
-            {
-                Console.WriteLine($"Cow {cow.CreateId()} is eating within the recommended amount of food per week");
-            }
+            string reconmendation = "";
+
+            return reconmendation;
         }
 
         //Calculate Any Eating Improvements Made By Any of the Animals
         public string CalculateEatingImprovements()
         {
+
+
             return "";
         }
 
@@ -84,18 +81,34 @@ namespace FeedCostAppV1
         }
 
         //Display a Summary of the Total Food Eaten Plus the Cost, and Recommended Food Eaten (All Animals, Not Just One)
-        public string DisplayTotalSummary(float foodPrices)
+        public string DisplayTotalSummary(float foodPrices, Cow cow)
         {
-            string totalSummary = $"Total Food Consumed: {CalculateTotalFoodConsumed()}\n" +
-                $"Total Cost: ${CalculateTotalFoodCost()}\n" +
-                $"";
+            string totalSummary = $"Eating Reconmendations\n" +
+                $"{CalculateRecommendedFoodConsumption(cow)}\n\n" +
+                $"Total Summary\n" +
+                $"Total Food Consumed: {CalculateTotalFoodConsumed()}\n" +
+                $"Total Cost: ${CalculateTotalFoodCost()}\n\n";
             return totalSummary;
+        }
+
+        public List<string> AddSummaryToList(float foodPrices, Cow cow)
+        {
+            AddSum.Add(DisplayTotalSummary(foodPrices, cow));
+
+            return AddSum;
         }
 
         //Display the Previous Summary
         public string DisplayPreviouSummary()
         {
-            return "";
+            string previousSummary = "";
+
+            for (int sumIndex = 0; sumIndex < AddSum.Count - 1; sumIndex++)
+            {
+                previousSummary = AddSum[sumIndex];
+            }
+
+            return previousSummary;
         }
     }
 }
