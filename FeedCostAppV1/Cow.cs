@@ -64,7 +64,7 @@ namespace FeedCostAppV1
         //Get the Amount of Food Eaten Each Day
         public List<float> GetDailyFoodConsumed()
         {
-            List<float> weeksConsumption = new List<float>() {0, 0, 0 };
+            List<float> weeksConsumption = new List<float>() { 0, 0, 0 };
 
             for (int dailyFoodIndex = dailyFoodAmount.Count - 7; dailyFoodIndex < dailyFoodAmount.Count; dailyFoodIndex++)
             {
@@ -88,6 +88,39 @@ namespace FeedCostAppV1
             return totalCost;
         }
 
+        public float GetFoodConsumed()
+        {
+            float weeksConsumption = 0f;
+
+            for (int dailyFoodIndex = dailyFoodAmount.Count - 7; dailyFoodIndex < dailyFoodAmount.Count; dailyFoodIndex++)
+            {
+                weeksConsumption += dailyFoodAmount[dailyFoodIndex];
+            }
+
+            return weeksConsumption;
+        }
+
+        //Calculate the Recommended Food that Should Be Consumed
+        public string CalculateRecommendedFoodConsumption()
+        {
+            string recommendation = "";
+
+            if (GetFoodConsumed() < 126)
+            {
+                recommendation = $"Cow {id} is eating {126 - GetFoodConsumed()}kg under the recommended amount of 126kg";
+            }
+            else if (GetFoodConsumed() > 200)
+            {
+                recommendation = $"Cow {id} is eating {GetFoodConsumed() - 200}kg over the recommended amount of 200kg";
+            }
+            else
+            {
+                recommendation = $"Cow {id} is eating {GetFoodConsumed()}kg which is within the recommended amount of 126kg - 200kg";
+            }
+
+            return recommendation;
+        }
+
         //Display a Summary of the Food Eaten Plus the Cost
         public string DisplaySingleSummary(List<float> fPrices, List<string> foodType)
         {
@@ -99,7 +132,9 @@ namespace FeedCostAppV1
                 summary += $"{foodType[index]}: {GetDailyFoodConsumed()[index]}kg\n";
             }
 
-            summary += $"Total Cost: ${CalculateWeeklyCost(fPrices)}";
+            summary += $"Total Cost: ${CalculateWeeklyCost(fPrices)}\n" +
+                $"Recommended Amount Of Food Consumed\n" +
+                $"{CalculateRecommendedFoodConsumption()}";
 
             return summary;
         }

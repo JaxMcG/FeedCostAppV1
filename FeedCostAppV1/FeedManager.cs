@@ -58,21 +58,7 @@ namespace FeedCostAppV1
             return totalFoodCost;            
         }
 
-        //Calculate the Recommended Food that Should Be Consumed
-        public string CalculateRecommendedFoodConsumption(Cow cow)
-        {
-            string reconmendation = "";
 
-            return reconmendation;
-        }
-
-        //Calculate Any Eating Improvements Made By Any of the Animals
-        public string CalculateEatingImprovements()
-        {
-
-
-            return "";
-        }
 
         //Change the Prices of Each type of Food
         public void ChangeFoodPrices()
@@ -81,19 +67,17 @@ namespace FeedCostAppV1
         }
 
         //Display a Summary of the Total Food Eaten Plus the Cost, and Recommended Food Eaten (All Animals, Not Just One)
-        public string DisplayTotalSummary(float foodPrices, Cow cow)
+        public string DisplayTotalSummary()
         {
-            string totalSummary = $"Eating Reconmendations\n" +
-                $"{CalculateRecommendedFoodConsumption(cow)}\n\n" +
-                $"Total Summary\n" +
+            string totalSummary = $"Total Summary\n" +
                 $"Total Food Consumed: {CalculateTotalFoodConsumed()}\n" +
                 $"Total Cost: ${CalculateTotalFoodCost()}\n\n";
             return totalSummary;
         }
 
-        public List<string> AddSummaryToList(float foodPrices, Cow cow)
+        public List<string> AddSummaryToList()
         {
-            AddSum.Add(DisplayTotalSummary(foodPrices, cow));
+            AddSum.Add(DisplayTotalSummary());
 
             return AddSum;
         }
