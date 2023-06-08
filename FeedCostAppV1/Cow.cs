@@ -62,7 +62,7 @@ namespace FeedCostAppV1
         }
 
         //Get the Amount of Food Eaten Each Day
-        public List<float> GetDailyFoodConsumed()
+        public List<float> GetDailyFoodConsumed(List<float> dailyFoodAmount)
         {
             List<float> weeksConsumption = new List<float>() { 0, 0, 0 };
 
@@ -75,14 +75,14 @@ namespace FeedCostAppV1
         }
 
         //Calculate the Cost for the Food Eaten that Week
-        public float CalculateWeeklyCost(List<float> fPrices)
+        public float CalculateWeeklyCost(List<float> fPrices, List<float> dailyFoodAmount)
         {
 
             float totalCost = 0;
             //Loop Through for the Number of Food Types Calculating the Sum Cost
             for (int foodTypeIndex = 0; foodTypeIndex < 3; foodTypeIndex++)
             {
-                totalCost += fPrices[foodTypeIndex] * GetDailyFoodConsumed()[foodTypeIndex];
+                totalCost += fPrices[foodTypeIndex] * GetDailyFoodConsumed(dailyFoodAmount)[foodTypeIndex];
             }
            
             return totalCost;
@@ -122,17 +122,17 @@ namespace FeedCostAppV1
         }
 
         //Display a Summary of the Food Eaten Plus the Cost
-        public string DisplaySingleSummary(List<float> fPrices, List<string> foodType)
+        public string DisplaySingleSummary(List<float> fPrices, List<string> foodType, List<float> dailyFoodAmount)
         {
             string summary = $"Species: {species}\nBreed: {breed}\nId: {id}\nType Of Food: {foodChoice}\n" +
                 $"Food Eaten:\n{dailyFoodAmount}\n\nTotal Food Eaten:\n";
 
             for (int index = 0; index < 3; index++)
             {
-                summary += $"{foodType[index]}: {GetDailyFoodConsumed()[index]}kg\n";
+                summary += $"{foodType[index]}: {GetDailyFoodConsumed(dailyFoodAmount)[index]}kg\n";
             }
 
-            summary += $"Total Cost: ${CalculateWeeklyCost(fPrices)}\n" +
+            summary += $"Total Cost: ${CalculateWeeklyCost(fPrices, dailyFoodAmount)}\n" +
                 $"Recommended Amount Of Food Consumed\n" +
                 $"{CalculateRecommendedFoodConsumption()}";
 
