@@ -30,29 +30,26 @@ namespace FeedCostAppV1
         }
 
         //Calculate the Total Food Consumed By Every Cow for the Week
-        public List<float> CalculateTotalFoodConsumed(List<float> weeksConsumption)
+        public List<float> CalculateTotalFoodConsumed()
         {
-            List<float> totalFoodConsumed = new List<float>() {0, 0, 0 };
+            List<float> totalFoodConsumed = new List<float>() { 126, 0, 0 };
 
             foreach (Cow cow in cows)
             {
-                for (int index = 0; index < 3; index++)
-                {
-                    totalFoodConsumed[index] += cow.GetDailyFoodConsumed(weeksConsumption)[index];
-                }  
+                totalFoodConsumed[cow.GetFoodType()] += cow.GetDailyFoodConsumed();
             }
-            
+
             return totalFoodConsumed;
         }
 
         //Calculate the Total Cost of Food for CalculateTotalFoodConsumed()
-        public List<float> CalculateTotalFoodCost(List<float> weeksConsumption, float foodPrices = 0)
+        public List<float> CalculateTotalFoodCost(float foodPrices = 0)
         {
             List<float> totalFoodCost = new List<float>() {0, 0, 0 };
 
             for (int index = 0; index < 3; index++)
             {
-                totalFoodCost[index] = foodPrices * CalculateTotalFoodConsumed(weeksConsumption)[index];
+                totalFoodCost[index] = foodPrices * CalculateTotalFoodConsumed()[index];
             }
 
             return totalFoodCost;            
@@ -67,17 +64,17 @@ namespace FeedCostAppV1
         }
 
         //Display a Summary of the Total Food Eaten Plus the Cost, and Recommended Food Eaten (All Animals, Not Just One)
-        public string DisplayTotalSummary(List<float> weeksConsumption)
+        public string DisplayTotalSummary()
         {
             string totalSummary = $"Total Summary\n" +
-                $"Total Food Consumed: {CalculateTotalFoodConsumed(weeksConsumption)}\n" +
-                $"Total Cost: ${CalculateTotalFoodCost(weeksConsumption)}\n\n";
+                $"Total Food Consumed: {CalculateTotalFoodConsumed()}\n" +
+                $"Total Cost: ${CalculateTotalFoodCost()}\n\n";
             return totalSummary;
         }
 
-        public List<string> AddSummaryToList(List<float> weeksConsumption)
+        public List<string> AddSummaryToList()
         {
-            AddSum.Add(DisplayTotalSummary(weeksConsumption));
+            AddSum.Add(DisplayTotalSummary());
 
             return AddSum;
         }
