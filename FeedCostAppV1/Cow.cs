@@ -8,27 +8,25 @@ namespace FeedCostAppV1
 {
     class Cow
     {
-        private List<FeedManager> feedManager = new List<FeedManager>();
-
         //Attributes or Fields
-        private string species;
         private string breed;
         private string id;
         private DateTime dob;
 
 
         //Stores the Indexs of the Food that Has Been Selected
-        private int foodChoice;
+        private int foodChoice = 0;
         //Stores the Amount of Food Eaten Daily
-        private List<float> dailyFoodAmount = new List<float>() { 20.5f, 19.3f, 18.7f, 20f, 23.6f, 17.2f, 21.2f, 19f};
+        private List<float> dailyFoodAmount = new List<float>() { 18, 18, 18, 18, 18, 18, 18 };
         private List<DateTime> dateWhenCowFeed = new List<DateTime>();
 
         //Constructor
-        public Cow(string species, string breed, DateTime dob)
+        public Cow(string breed, DateTime dob, int foodChoice)
         {
-            this.species = species;
+
             this.breed = breed;
             this.dob = dob;
+            this.foodChoice = foodChoice;
         }
 
         //
@@ -43,12 +41,6 @@ namespace FeedCostAppV1
                 this.dateWhenCowFeed.Add(date);
             }
 
-        }
-
-        //Set Species to Cow
-        public void SetSpecies(string species)
-        {
-            this.species = species;
         }
 
         //Returns the Value in the Private breed Variable
@@ -83,17 +75,10 @@ namespace FeedCostAppV1
         }
 
         //Calculate the Cost for the Food Eaten that Week
-        public float CalculateWeeklyCost(List<float> fPrices)
+        public float CalculateWeeklyCost(float fPrices)
         {
-
-            float totalCost = 0;
             //Loop Through for the Number of Food Types Calculating the Sum Cost
-            for (int foodTypeIndex = 0; foodTypeIndex < 3; foodTypeIndex++)
-            {
-                totalCost += fPrices[foodTypeIndex] * GetDailyFoodConsumed()[foodTypeIndex];
-            }
-           
-            return totalCost;
+            return fPrices * GetDailyFoodConsumed();
         }
 
         public float GetFoodConsumed()
@@ -130,19 +115,23 @@ namespace FeedCostAppV1
         }
 
         //Display a Summary of the Food Eaten Plus the Cost
-        public string DisplaySingleSummary(List<float> fPrices, List<string> foodType)
+        public string DisplaySingleSummary(float fPrices, string foodType)
         {
-            string summary = $"Species: {species}\nBreed: {breed}\nId: {id}\nType Of Food: {foodChoice}\n" +
-                $"Food Eaten:\n{dailyFoodAmount}\n\nTotal Food Eaten:\n";
+            int dayCounter = 1;
 
-            for (int index = 0; index < 3; index++)
+            string summary = $"Breed: {breed}\nId: {id}\nType Of Food: {foodType}\n" +
+                $"Food Eaten:\n";
+
+            for (int dailyFoodIndex = dailyFoodAmount.Count - 7; dailyFoodIndex < dailyFoodAmount.Count; dailyFoodIndex++)
             {
-                summary += $"{foodType[index]}: {GetDailyFoodConsumed()[index]}kg\n";
+                summary += $"Day {dayCounter}: {dailyFoodAmount[dailyFoodIndex]}kg\n";
+
+                dayCounter++;
             }
 
-            summary += $"Total Cost: ${CalculateWeeklyCost(fPrices)}\n" +
-                $"Recommended Amount Of Food Consumed\n" +
-                $"{CalculateRecommendedFoodConsumption()}";
+            summary += $"\nTotal Food Consumed: {GetDailyFoodConsumed()}kg\n";
+
+            summary += $"Total Cost: ${Math.Round(CalculateWeeklyCost(fPrices), 2)}\n";
 
             return summary;
         }

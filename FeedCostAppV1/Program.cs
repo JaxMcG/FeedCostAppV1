@@ -10,20 +10,29 @@ namespace FeedCostAppV1
             List<string> breedTypes = new List<string>() { "Friesian", "Jersey", "Ayrshire " };
             List<string> foodType = new List<string>() { "Palm Kernal", "Maize", "Hay" };
             List<float> foodPrice = new List<float>() { 1.69625f, 0.4556f, 0.113f };
+            int cowCount = 1;
 
             Console.WriteLine("----------Cow Testing----------");
 
-            Cow testCow = new Cow("Friesian", "Maize", new DateTime(2023));
+            Cow testCow = new Cow("Friesian", new DateTime(2019, 05, 09, 9, 15, 0), 0);
 
-            List<float> weeksConsumption = new List<float>() {};         
+            testCow.CreateId(cowCount);
 
             testCow.GetDailyFoodConsumed();
 
-            testCow.CalculateWeeklyCost(foodPrice);
+            testCow.CalculateWeeklyCost(1.69625f);
 
-            testCow.CalculateRecommendedFoodConsumption();
+            Console.WriteLine(testCow.DisplaySingleSummary(1.69625f, "Palm Kernal"));
 
-            Console.WriteLine(testCow.DisplaySingleSummary(foodPrice, foodType));
-    }
+            Console.WriteLine("----------FeedManager Testing----------");
+
+            FeedManager fm = new FeedManager();
+
+            fm.CalculateTotalFoodConsumed();
+
+            fm.CalculateTotalFoodCost();
+
+            Console.WriteLine(fm.DisplayTotalSummary());
+        }
     }
 }

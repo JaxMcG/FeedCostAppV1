@@ -43,16 +43,16 @@ namespace FeedCostAppV1
         }
 
         //Calculate the Total Cost of Food for CalculateTotalFoodConsumed()
-        public List<float> CalculateTotalFoodCost(float foodPrices = 0)
+        public float CalculateTotalFoodCost()
         {
-            List<float> totalFoodCost = new List<float>() {0, 0, 0 };
+            float totalFoodCost = 0;
 
             for (int index = 0; index < 3; index++)
             {
-                totalFoodCost[index] = foodPrices * CalculateTotalFoodConsumed()[index];
+                totalFoodCost += foodPrice[index] * CalculateTotalFoodConsumed()[index];
             }
 
-            return totalFoodCost;            
+            return (float)Math.Round(totalFoodCost, 2);
         }
 
 
@@ -67,8 +67,15 @@ namespace FeedCostAppV1
         public string DisplayTotalSummary()
         {
             string totalSummary = $"Total Summary\n" +
-                $"Total Food Consumed: {CalculateTotalFoodConsumed()}\n" +
-                $"Total Cost: ${CalculateTotalFoodCost()}\n\n";
+                $"Total Food Consumed: \n";
+
+            for (int i = 0; i < foodType.Count; i++)
+            {
+                totalSummary += $"{foodType[i]}: {CalculateTotalFoodConsumed()[i]}kg\n";
+            }
+
+            totalSummary += $"Total Cost: ${CalculateTotalFoodCost()}\n\n";
+
             return totalSummary;
         }
 
